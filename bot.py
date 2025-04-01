@@ -12,10 +12,10 @@ BUYING_IMAGE_URL = "https://raw.githubusercontent.com/cryptoprofezor/MCTP2P-Bot/
 BUYING_MESSAGE = "Buy USDT Now! Available at best rates!"
 
 # USDT Available post message and image URL
-USDT_AVAILABLE_IMAGE_URL = "https://raw.githubusercontent.com/cryptoprofezor/MCTP2P-Bot/main/USDT_available.jpg"  # Replace with correct image URL
+USDT_AVAILABLE_IMAGE_URL = "https://raw.githubusercontent.com/cryptoprofezor/MCTP2P-Bot/main/available_image.jpg"  # Replace with correct image URL
 USDT_AVAILABLE_MESSAGE = "USDT Available Now! Check out the latest stock."
 
-async def post(update: Update = None, context: ContextTypes.DEFAULT_TYPE = None, message: str, image_url: str) -> None:
+async def post(update: Update = None, context: ContextTypes.DEFAULT_TYPE = None, message: str = None, image_url: str = None) -> None:
     """Helper function to send posts with messages and images"""
     if update:
         user_id = update.message.from_user.id
@@ -28,6 +28,10 @@ async def post(update: Update = None, context: ContextTypes.DEFAULT_TYPE = None,
         
         # Get the full message text after /post, preserving line breaks
         message = update.message.text[len("/post "):]
+
+    # If message or image_url is not provided, fall back to defaults
+    message = message or BUYING_MESSAGE  # Default to buying message if none provided
+    image_url = image_url or BUYING_IMAGE_URL  # Default to buying image if none provided
 
     # Create the keyboard for admin contact
     keyboard = [[InlineKeyboardButton("🔹 Contact Admin", url="https://t.me/Crypto_boysss")]]
@@ -68,4 +72,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
