@@ -33,6 +33,8 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         await update.message.reply_text("Message posted successfully!")
     except Exception as e:
+        # Log the error for better debugging
+        print(f"Error sending photo: {e}")
         await update.message.reply_text(f"Error: {e}")
 
 def main() -> None:
