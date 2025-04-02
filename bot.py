@@ -9,9 +9,9 @@ BOT_TOKEN = os.environ.get("BOT_TOKEN")
 # Allowed users' Telegram IDs from environment variable (comma-separated string to list)
 ALLOWED_USER_IDS = [int(user_id) for user_id in os.environ.get("ALLOWED_USER_IDS", "").split(",") if user_id]
 
-# Image paths (GitHub raw links, will update after repo setup)
-BUYING_USDT_IMAGE_PATH = "https://raw.githubusercontent.com/cryptoprofezor/MCTP2P-Bot/main/image.jpg"
-USDT_AVAILABLE_IMAGE_PATH = "https://raw.githubusercontent.com/cryptoprofezor/MCTP2P-Bot/main/USDT_available.jpg"
+# Image paths (local files in Railway)
+BUYING_USDT_IMAGE_PATH = "./image.jpg"
+USDT_AVAILABLE_IMAGE_PATH = "./USDT_available.jpg"
 
 # Channel chat ID from environment variable
 CHANNEL_CHAT_ID = int(os.environ.get("CHANNEL_CHAT_ID"))
@@ -71,13 +71,14 @@ async def post_buying_usdt(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     reply_markup = InlineKeyboardMarkup(inline_buttons) if inline_buttons else None
 
     try:
-        message_obj = await context.bot.send_photo(
-            chat_id=CHANNEL_CHAT_ID,
-            photo=image_path,
-            caption=message,
-            reply_markup=reply_markup,
-            parse_mode="HTML"
-        )
+        with open(image_path, 'rb') as photo:
+            message_obj = await context.bot.send_photo(
+                chat_id=CHANNEL_CHAT_ID,
+                photo=photo,
+                caption=message,
+                reply_markup=reply_markup,
+                parse_mode="HTML"
+            )
         saved_message_id = message_obj.message_id
         print(f"Posted 'Buying USDT' - Message ID: {saved_message_id}")
     except Exception as e:
@@ -100,13 +101,14 @@ async def post_usdt_available(update: Update, context: ContextTypes.DEFAULT_TYPE
     reply_markup = InlineKeyboardMarkup(inline_buttons) if inline_buttons else None
 
     try:
-        message_obj = await context.bot.send_photo(
-            chat_id=CHANNEL_CHAT_ID,
-            photo=image_path,
-            caption=message,
-            reply_markup=reply_markup,
-            parse_mode="HTML"
-        )
+        with open(image_path, 'rb') as photo:
+            message_obj = await context.bot.send_photo(
+                chat_id=CHANNEL_CHAT_ID,
+                photo=photo,
+                caption=message,
+                reply_markup=reply_markup,
+                parse_mode="HTML"
+            )
         saved_message_id = message_obj.message_id
         print(f"Posted 'USDT Available' - Message ID: {saved_message_id}")
     except Exception as e:
